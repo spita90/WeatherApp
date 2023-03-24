@@ -1,5 +1,3 @@
-import { AVAILABLE_CITIES } from "../App";
-
 /**
  * A custom Error class
  * @param messageLocaleKey the key string for the i18n translatable message
@@ -17,6 +15,14 @@ export class DomainError extends Error {
 
 export type User = {
   firstUse: boolean;
+  name: string;
+  cities: City[];
+};
+
+export type City = {
+  name: string;
+  lat: number;
+  lon: number;
 };
 
 export interface WeatherResponse {
@@ -50,5 +56,3 @@ export interface WeatherResponse {
   };
   cod: number; // Internal parameter
 }
-
-export type AvailableCity = keyof typeof AVAILABLE_CITIES;

@@ -13,7 +13,7 @@ export function WeatherDetailScreen({
 
   return (
     <Screen>
-      <View style={tw`flex h-full items-center`}>
+      <View style={tw`h-full items-center`}>
         <ScrollView style={tw`w-full`}></ScrollView>
       </View>
     </Screen>

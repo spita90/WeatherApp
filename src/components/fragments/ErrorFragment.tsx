@@ -50,7 +50,7 @@ export function ErrorFragment({ error }: ErrorPageProps) {
         size={"lg"}
         style={{ alignSelf: "center", padding: 10, marginBottom: 20 }}
       >
-        {i18n.t("error")}
+        {i18n.t("l.error")}
       </Text>
       <View
         style={tw`absolute right-6 bottom-6 w-[50%] h-[50px] justify-end items-end`}

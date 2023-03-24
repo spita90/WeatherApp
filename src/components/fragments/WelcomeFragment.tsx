@@ -1,6 +1,5 @@
-import React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Animated, Easing, Image, Platform, View } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Animated, Easing, Platform, View } from "react-native";
 import { Button, Text } from "../";
 import { SCREEN_AVAILABLE_WIDTH } from "../../../App";
 import { setFirstUse } from "../../reducers/userReducer";
@@ -39,15 +38,8 @@ export function WelcomeFragment() {
         ]}
       >
         <Animated.View style={[{ transform: [{ translateX: hiSlideAnim }] }]}>
-          <Text textStyle={tw`text-7xl mb-[60px]`}>{i18n.t("hi")}</Text>
+          <Text textStyle={tw`text-7xl mb-[60px]`}>{i18n.t("l.hi")}</Text>
         </Animated.View>
-        <Text style={tw`mb-xl px-lg`} textStyle={tw`text-xl`}>
-          {i18n.t("welcomeSearch")}
-        </Text>
-        <Image
-          style={[tw`w-[80%] h-[40%] rounded-lg`, { resizeMode: "contain" }]}
-          source={require(`../../../assets/images/welcome_search.jpg`)}
-        />
       </View>
     );
   }, []);
@@ -59,15 +51,7 @@ export function WelcomeFragment() {
           tw`items-center justify-center`,
           { width: SCREEN_AVAILABLE_WIDTH },
         ]}
-      >
-        <Text style={tw`mb-lg px-lg`} textStyle={tw`text-xl`}>
-          {i18n.t("welcomeList")}
-        </Text>
-        <Image
-          style={[tw`w-[80%] h-[60%] rounded-lg`, { resizeMode: "contain" }]}
-          source={require(`../../../assets/images/welcome_list.jpg`)}
-        />
-      </View>
+      ></View>
     );
   }, []);
 
@@ -78,15 +62,7 @@ export function WelcomeFragment() {
           tw`items-center justify-center`,
           { width: SCREEN_AVAILABLE_WIDTH },
         ]}
-      >
-        <Text style={tw`mb-md px-lg`} textStyle={tw`text-lg`}>
-          {i18n.t("welcomeDetail")}
-        </Text>
-        <Image
-          style={[tw`w-[80%] h-[80%] rounded-lg`, { resizeMode: "contain" }]}
-          source={require(`../../../assets/images/welcome_detail.jpg`)}
-        />
-      </View>
+      ></View>
     );
   }, []);
 
@@ -138,7 +114,7 @@ export function WelcomeFragment() {
               color="white"
               textStyle={tw`${Platform.OS == "web" ? `text-2xl` : "text-xl"}`}
             >
-              {`<`}
+              {i18n.t("l.prev")}
             </Text>
           </Button>
         ) : (
@@ -149,7 +125,7 @@ export function WelcomeFragment() {
             color="white"
             textStyle={tw`${Platform.OS == "web" ? `text-2xl` : "text-xl"}`}
           >
-            {currentPageNumber < 2 ? `/>` : i18n.t("end")}
+            {i18n.t(currentPageNumber < 2 ? "l.next" : "l.end")}
           </Text>
         </Button>
       </View>
@@ -160,14 +136,14 @@ export function WelcomeFragment() {
   return (
     <Animated.View
       style={[
-        tw`flex flex-1 overflow-hidden`,
+        tw`flex-1 overflow-hidden`,
         { width: SCREEN_AVAILABLE_WIDTH },
         { opacity: fadeAnim },
       ]}
     >
       <Animated.View
         style={[
-          tw`flex flex-row flex-8 justify-center`,
+          tw`flex-row flex-8 justify-center`,
           { transform: [{ translateX: slideAnim }] },
         ]}
       >

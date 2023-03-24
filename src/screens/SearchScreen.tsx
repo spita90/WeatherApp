@@ -11,13 +11,13 @@ export function SearchScreen({
   const tw = useTw();
 
   const ScreenContent = useCallback(
-    () => <View style={tw`flex flex-row justify-center`}></View>,
+    () => <View style={tw`flex-row justify-center`}></View>,
     []
   );
 
   return (
     <Screen>
-      <View style={tw`flex items-center pt-xl h-full`}>
+      <View style={tw`items-center pt-xl h-full`}>
         <ScreenContent />
       </View>
     </Screen>

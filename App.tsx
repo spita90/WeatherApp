@@ -12,7 +12,7 @@ import { AppLoader } from "./src/components/core/AppLoader";
 import { ErrorFragment } from "./src/components/fragments/ErrorFragment";
 import { AppNavigator } from "./src/navigation/AppNavigator";
 import { persistor, store } from "./src/reducers/store";
-import { DomainError } from "./src/types";
+import { City, DomainError } from "./src/types";
 
 export const WEB_APP_MAX_WIDTH_PX = 600;
 export const SCREEN_AVAILABLE_WIDTH = Math.min(
@@ -20,12 +20,11 @@ export const SCREEN_AVAILABLE_WIDTH = Math.min(
   Dimensions.get("window").width
 );
 
-export const AVAILABLE_CITIES = {
-  // lat, lon
-  Prato: [43.87309, 11.08278],
-  Bologna: [44.498955, 11.327591],
-  Torino: [45.116177, 7.742615],
-};
+export const BUILTIN_CITIES: City[] = [
+  { name: "Prato", lat: 43.87309, lon: 11.08278 },
+  { name: "Bologna", lat: 44.498955, lon: 11.327591 },
+  { name: "Torino", lat: 45.116177, lon: 7.742615 },
+];
 
 const onError = async (error: Error) => {
   if (error instanceof DomainError && error.fatal) {

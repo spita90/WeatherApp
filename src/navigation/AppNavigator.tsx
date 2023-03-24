@@ -4,9 +4,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useCallback, useEffect, useRef } from "react";
 import { Animated, Platform, View } from "react-native";
 import { useSelector } from "react-redux";
+import { Octicons } from "@expo/vector-icons";
 import { i18n } from "../components/core/LanguageLoader";
 import { Text } from "../components/Text";
-import Icon from "react-native-ionicons";
 import { languageState } from "../reducers/store";
 import React from "react";
 import {
@@ -67,7 +67,7 @@ export const AppNavigator = () => {
           tabBarIcon: ({ focused }) =>
             renderIcon({ name: route.name, focused }),
           tabBarStyle: [
-            tw`bg-black rounded-t-xl`,
+            tw`bg-white m-md rounded-xl`,
             { height: NAV_BAR_HEIGHT_PX },
           ],
         })}
@@ -82,16 +82,15 @@ export const AppNavigator = () => {
 
   const tabMenuIcons = {
     MainScreen: (focused: boolean) => (
-      <Icon name="home-outline" />
-      // <GitHubMarkSvg
-      //   width={44}
-      //   height={42}
-      //   color={"white"}
-      //   fillOpacity={focused ? 1 : 0.6}
-      // />
+      <Octicons name="home" size={30} color="black" />
     ),
-    SearchScreen: (focused: boolean) => <Icon name="home-outline" />,
-    LocationScreen: (focused: boolean) => <Icon name="home-outline" />,
+
+    SearchScreen: (focused: boolean) => (
+      <Octicons name="search" size={30} color="black" />
+    ),
+    LocationScreen: (focused: boolean) => (
+      <Octicons name="location" size={30} color="black" />
+    ),
   };
 
   const renderIcon = ({
@@ -103,30 +102,12 @@ export const AppNavigator = () => {
   }) => {
     const TabMenuIcon = () => tabMenuIcons[name](focused);
 
-    let label = "";
-    switch (name) {
-      case "MainScreen":
-        label = i18n.t("stargazers");
-        break;
-      case "SearchScreen":
-        label = i18n.t("profile");
-        break;
-      case "LocationScreen":
-        label = i18n.t("profile");
-        break;
-    }
-
     return (
-      <View style={tw`mt-[10px] mb-[6px] items-center`}>
+      <View style={tw`grow justify-between items-center pt-[20%]`}>
         <TabMenuIcon />
-        <Text
-          color={focused ? "white" : "white60"}
-          size="sm"
-          textStyle={tw`text-center`}
-          style={tw`mt-[6px] min-w-[50px]`}
-        >
-          {label}
-        </Text>
+        <View
+          style={tw`w-[50px] h-[3px] bg-${focused ? "black" : "transparent"}`}
+        />
       </View>
     );
   };
