@@ -63,7 +63,7 @@ export function MainScreen({ navigation }: HomeTabScreenProps<"MainScreen">) {
 
   const ScreenContent = useCallback(
     () => (
-      <View>
+      <View style={tw`items-center`}>
         <Header />
         <Text style={tw`mt-xl`} textStyle={tw`text-4xl`} bold>
           {name}

@@ -1,6 +1,5 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 import axiosRetry from "axios-retry";
-import { DomainError } from "../types";
 
 const openWeatherMapApiBaseUrl = "https://api.openWeatherMap.org/data/2.5";
 
