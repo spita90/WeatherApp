@@ -42,8 +42,3 @@ export const getOpenWeatherMapClient = () => {
 export const noResponse = (response: AxiosResponse) => {
   return response === undefined || response.data === undefined;
 };
-
-export const hasError = (result: any) =>
-  result instanceof Error ||
-  result instanceof AxiosError ||
-  result instanceof DomainError;

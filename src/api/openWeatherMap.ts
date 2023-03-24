@@ -42,12 +42,11 @@ export const isError404NotFound = (e: any) => {
   );
 };
 
-// export const rateLimitExcedeed = (e: any) => {
-//   return (
-//     axios.isAxiosError(e) &&
-//     e.code === AxiosError.ERR_BAD_REQUEST &&
-//     e.response &&
-//     e.response.status === 403 &&
-//     e.response.data.message.includes("API rate limit exceeded")
-//   );
-// };
+export const rateLimitExcedeed = (e: any) => {
+  return (
+    axios.isAxiosError(e) &&
+    e.code === AxiosError.ERR_BAD_REQUEST &&
+    e.response &&
+    e.response.status === 429
+  );
+};

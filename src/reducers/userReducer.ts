@@ -1,12 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BUILTIN_CITIES } from "../../App";
 import { City, User } from "../types";
 import { store } from "./store";
 
 const initialUserState: User = {
   firstUse: true,
   name: "",
-  cities: BUILTIN_CITIES,
+  cities: [
+    // Built-in cities
+    { name: "Prato", lat: 43.87309, lon: 11.08278 },
+    { name: "Bologna", lat: 44.498955, lon: 11.327591 },
+    { name: "Torino", lat: 45.116177, lon: 7.742615 },
+  ],
 };
 
 const userSlice = createSlice({

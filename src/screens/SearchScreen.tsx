@@ -17,7 +17,7 @@ export function SearchScreen({
 
   return (
     <Screen>
-      <View style={tw`items-center pt-xl h-full`}>
+      <View style={tw`h-full items-center`}>
         <ScreenContent />
       </View>
     </Screen>

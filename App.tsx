@@ -20,12 +20,6 @@ export const SCREEN_AVAILABLE_WIDTH = Math.min(
   Dimensions.get("window").width
 );
 
-export const BUILTIN_CITIES: City[] = [
-  { name: "Prato", lat: 43.87309, lon: 11.08278 },
-  { name: "Bologna", lat: 44.498955, lon: 11.327591 },
-  { name: "Torino", lat: 45.116177, lon: 7.742615 },
-];
-
 const onError = async (error: Error) => {
   if (error instanceof DomainError && error.fatal) {
     await AsyncStorage.clear();

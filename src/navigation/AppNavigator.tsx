@@ -67,7 +67,7 @@ export const AppNavigator = () => {
           tabBarIcon: ({ focused }) =>
             renderIcon({ name: route.name, focused }),
           tabBarStyle: [
-            tw`bg-white m-md rounded-xl`,
+            tw`bg-white m-md rounded-lg`,
             { height: NAV_BAR_HEIGHT_PX },
           ],
         })}
