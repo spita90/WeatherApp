@@ -1,19 +1,26 @@
 import { Octicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import moment from "moment";
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { Screen, Text } from "../components";
+import { Image, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
+import { openWeatherMapImageBaseUrl } from "../../App";
+import { AddCityButton, Screen, Text } from "../components";
 import { RootStackScreenProps } from "../navigation/screens";
+import { languageState } from "../reducers/store";
 import { useTw } from "../theme";
 import { Palette } from "../theme/palette";
+import { capitalize, LocalizedDateFormat } from "../utils";
 
 export function WeatherDetailScreen({
   navigation,
   route,
 }: RootStackScreenProps<"WeatherDetailScreen">) {
   const tw = useTw();
+  const { code: langCode } = useSelector(languageState);
 
   const { cityName, currentWeather } = route.params;
+  const icon = currentWeather.weather[0].icon;
 
   return (
     <Screen>
@@ -22,7 +29,7 @@ export function WeatherDetailScreen({
         colors={[Palette.detailStartBlue, Palette.detailEndBlue]}
       >
         <View style={tw`w-full`}>
-          <View style={tw`flex-row pt-sm pb-md items-center justify-between`}>
+          <View style={tw`flex-row pt-sm items-center justify-between`}>
             <TouchableOpacity
               style={tw`p-xl`}
               onPress={() => {
@@ -35,12 +42,31 @@ export function WeatherDetailScreen({
               {cityName}
             </Text>
             <TouchableOpacity style={tw`p-xl`}>
-              <View
-                style={tw`w-[32px] h-[32px] border-[2px] border-white rounded-sm items-center justify-center`}
-              >
-                <Octicons name="plus" size={24} color="white" />
-              </View>
+              <AddCityButton />
             </TouchableOpacity>
+          </View>
+          <View style={tw`items-center`}>
+            <Text textWhite size="lg">
+              {moment(new Date()).format(LocalizedDateFormat[langCode])}
+            </Text>
+            <Text style={tw`mt-lg`} size="tt" textWhite>
+              {capitalize(currentWeather.weather[0].description)}
+            </Text>
+            {!!icon && (
+              <View style={tw`flex-row`}>
+                <Image
+                  style={tw`w-[150px] h-[150px]`}
+                  source={{
+                    uri: `${openWeatherMapImageBaseUrl}/${icon}@4x.png`,
+                  }}
+                />
+                <Text
+                  style={tw`justify-center`}
+                  textStyle={tw`text-8xl`}
+                  textWhite
+                >{`${Math.floor(currentWeather.main.temp)}°`}</Text>
+              </View>
+            )}
           </View>
         </View>
       </LinearGradient>

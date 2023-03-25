@@ -31,8 +31,8 @@ const userSlice = createSlice({
         (city) => city.name !== action.payload
       );
     },
-    _wipe(state) {
-      return (state = initialUserState);
+    _wipe() {
+      return initialUserState;
     },
   },
 });

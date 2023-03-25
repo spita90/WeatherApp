@@ -1,8 +1,22 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Animated, Easing, Platform, View } from "react-native";
-import { Button, Text } from "../";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  Animated,
+  Easing,
+  Platform,
+  View,
+  Image,
+  Keyboard,
+} from "react-native";
+import { Octicons } from "@expo/vector-icons";
+import { AnimatedTextInput, Button, Text } from "../";
 import { SCREEN_AVAILABLE_WIDTH } from "../../../App";
-import { setFirstUse } from "../../reducers/userReducer";
+import { setFirstUse, setName } from "../../reducers/userReducer";
 import { useTw } from "../../theme";
 import { i18n } from "../core/LanguageLoader";
 
@@ -11,6 +25,13 @@ export function WelcomeFragment() {
 
   const [currentPageNumber, setCurrentPageNumber] = useState<number>(0);
   const [finishing, setFinishing] = useState<boolean>(false);
+
+  const [username, setUsername] = useState<string>();
+
+  const usernameIsValid = useMemo(
+    () => !!username && username.trim().length > 0,
+    [username]
+  );
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const hiSlideAnim = useRef(
@@ -27,6 +48,10 @@ export function WelcomeFragment() {
     setFinishing(true);
   };
 
+  const onUsernameInputValueChanged = (text: string) => {
+    setUsername(text);
+  };
+
   const finish = () => setFirstUse(false);
 
   const Page0 = useCallback(() => {
@@ -40,6 +65,16 @@ export function WelcomeFragment() {
         <Animated.View style={[{ transform: [{ translateX: hiSlideAnim }] }]}>
           <Text textStyle={tw`text-7xl mb-[60px]`}>{i18n.t("l.hi")}</Text>
         </Animated.View>
+        <Text style={tw`mb-xl px-lg`} textStyle={tw`text-xl`}>
+          {i18n.t("l.welcome")}
+        </Text>
+        <Text style={tw`px-[10%]`} center>
+          {i18n.t("l.welcomeCaption")}
+        </Text>
+        <Image
+          style={[tw`mt-xl h-[25%]`, { resizeMode: "contain" }]}
+          source={require("../../../assets/favicon.png")}
+        />
       </View>
     );
   }, []);
@@ -51,7 +86,25 @@ export function WelcomeFragment() {
           tw`items-center justify-center`,
           { width: SCREEN_AVAILABLE_WIDTH },
         ]}
-      ></View>
+      >
+        <Text size="lg" style={tw`px-lg`} textStyle={tw`leading-10`} center>
+          {i18n.t("l.insertName")}
+        </Text>
+        <AnimatedTextInput
+          style={tw`mt-xl w-[80%]`}
+          textStyle={tw`text-2xl font-bold`}
+          labelStyle={tw`text-lg`}
+          label={i18n.t("l.insertNameInputCaption")}
+          value={username}
+          onChangeText={onUsernameInputValueChanged}
+          returnKeyType="done"
+          // blurOnSubmit={false}
+          // onSubmitEditing={() => {
+          //   //@ts-ignore
+          //   repoTextInputRef.current.focus();
+          // }}
+        />
+      </View>
     );
   }, []);
 
@@ -110,27 +163,27 @@ export function WelcomeFragment() {
       <View style={tw`flex-row flex-1 py-md px-xl justify-between items-end`}>
         {currentPageNumber > 0 ? (
           <Button onPress={() => goPrev(currentPageNumber)}>
-            <Text
-              color="white"
-              textStyle={tw`${Platform.OS == "web" ? `text-2xl` : "text-xl"}`}
-            >
-              {i18n.t("l.prev")}
-            </Text>
+            <Octicons name="arrow-left" size={32} color={"black"} />
           </Button>
         ) : (
           <View style={tw`flex-1`} />
         )}
-        <Button onPress={() => goNext(currentPageNumber)}>
-          <Text
-            color="white"
-            textStyle={tw`${Platform.OS == "web" ? `text-2xl` : "text-xl"}`}
+        {(currentPageNumber !== 1 || usernameIsValid) && (
+          <Button
+            onPress={() => {
+              if (currentPageNumber === 1) {
+                Keyboard.dismiss();
+                setName(username!.trim());
+              }
+              goNext(currentPageNumber);
+            }}
           >
-            {i18n.t(currentPageNumber < 2 ? "l.next" : "l.end")}
-          </Text>
-        </Button>
+            <Octicons name="arrow-right" size={32} color={"black"} />
+          </Button>
+        )}
       </View>
     ),
-    [currentPageNumber]
+    [currentPageNumber, username]
   );
 
   return (

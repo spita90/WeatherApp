@@ -19,6 +19,7 @@ export const SCREEN_AVAILABLE_WIDTH = Math.min(
   WEB_APP_MAX_WIDTH_PX,
   Dimensions.get("window").width
 );
+export const openWeatherMapImageBaseUrl = "https://openweathermap.org/img/wn";
 
 const onError = async (error: Error) => {
   if (error instanceof DomainError && error.fatal) {

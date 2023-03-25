@@ -14,7 +14,7 @@ import { fontSizes, FontSizeType, Sizes, SpacingType } from "../theme/sizes";
 export interface Props {
   children: React.ReactNode | string;
   size?: FontSizeType | number;
-  color?: ColorsType;
+  color?: ColorsType | string;
   textWhite?: boolean;
   bold?: boolean;
   center?: boolean;

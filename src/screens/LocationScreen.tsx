@@ -55,7 +55,7 @@ export function LocationScreen({
   const Header = useCallback(
     () => (
       <Text style={tw`mt-xl`} textStyle={tw`text-4xl`} bold>
-        {i18n.t("l.profile")}
+        {i18n.t("l.settings")}
       </Text>
     ),
     []
