@@ -7,6 +7,7 @@ import {
   ViewStyle,
 } from "react-native";
 import { useTw } from "../theme";
+import { Palette } from "../theme/palette";
 
 export interface ScreenProps {
   children: React.ReactNode;
@@ -30,7 +31,7 @@ export function Screen({
 }: ScreenProps) {
   const statusBg = statusBackgroundColor
     ? statusBackgroundColor
-    : "transparent";
+    : Palette.background;
   const tw = useTw();
   return (
     <SafeAreaView style={[{ flex: 1 }, style]}>
@@ -39,7 +40,7 @@ export function Screen({
         barStyle={"dark-content"}
         animated
       />
-      <View style={[{ flex: 1 }, tw`${padded ? "px-xs" : ""}`]}>
+      <View style={tw`flex-1 ${padded ? "px-xs" : ""} bg-background`}>
         {children}
       </View>
     </SafeAreaView>

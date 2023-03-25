@@ -64,6 +64,7 @@ export function LocationScreen({
   const LanguageChanger = useCallback(
     () => (
       <Button
+        color="blue"
         style={tw`mt-[50px]`}
         onPress={() => {
           const currentLanguageIndex = LANGUAGES.indexOf(i18n.locale);
@@ -72,7 +73,7 @@ export function LocationScreen({
           setLanguage(i18n.locale);
         }}
       >
-        <Text color="white">{i18n.t("l.changeLanguage")}</Text>
+        <Text textWhite>{i18n.t("l.changeLanguage")}</Text>
       </Button>
     ),
     []

@@ -33,7 +33,7 @@ export default function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <GestureHandlerRootView
-          style={tw`flex-1 flex-row bg-[#EEEEEE] justify-center`}
+          style={tw`flex-1 flex-row bg-white justify-center`}
         >
           <View style={tw`flex-1`}>
             <RootSiblingParent>

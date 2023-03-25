@@ -30,12 +30,9 @@ export function AppLoader({ children }: { children: JSX.Element }) {
 
   const initializeApp = async () => {
     // Eventual initialization code
-    setTimeout(
-      () => {
-        setappInitialized(true);
-      },
-      __DEV__ ? 10 : 2300
-    );
+    setTimeout(() => {
+      setappInitialized(true);
+    }, 2500);
   };
 
   useEffect(() => {

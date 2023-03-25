@@ -1,5 +1,5 @@
 import Lottie from "lottie-react-native";
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { Image, View } from "react-native";
 import { Text } from "..";
 import { useTw } from "../../theme";
@@ -17,21 +17,29 @@ export const LoadingFragment = () => {
     require("../../../assets/animations/thunderstorm.json"),
   ];
 
-  return (
-    <View style={tw`h-full justify-center items-center`}>
-      <Lottie
-        style={tw`w-[80%]`}
-        source={animations[Math.floor(Math.random() * animations.length)]}
-        loop={true}
-        autoPlay
-      />
-      <View style={tw`w-[50%] h-[100px]`}>
-        <Image
-          style={[tw`flex-1 w-full`, { resizeMode: "contain" }]}
-          source={require("../../../assets/favicon.png")}
+  const animationIndex = useMemo(
+    () => Math.floor(Math.random() * animations.length),
+    []
+  );
+
+  const LottieAnimation = useCallback(() => {
+    if (!animationIndex && animationIndex !== 0) return null;
+    return (
+      <View style={tw`rounded-[40px] overflow-hidden`}>
+        <Lottie
+          style={tw`w-[80%] rounded-lg`}
+          source={animations[animationIndex]}
+          loop={true}
+          autoPlay
         />
       </View>
-      <Text size={"xl"} ignoreFontFamily>
+    );
+  }, [animationIndex]);
+
+  return (
+    <View style={tw`h-full justify-center items-center`}>
+      <LottieAnimation />
+      <Text style={tw`mt-lg`} size={"xl"} bold ignoreFontFamily>
         {`WeatherApp`}
       </Text>
     </View>

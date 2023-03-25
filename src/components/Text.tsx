@@ -15,6 +15,7 @@ export interface Props {
   children: React.ReactNode | string;
   size?: FontSizeType | number;
   color?: ColorsType;
+  textWhite?: boolean;
   bold?: boolean;
   center?: boolean;
   onPress?: () => void;
@@ -35,6 +36,7 @@ export interface Props {
   @param size the font size
   @param bold thickens the font
   @param color the font color
+  @param textWhite shorthand for white color text
   @param center centers the text
   @param onPress a function executen on text press
   @param style the style of the text container
@@ -50,6 +52,7 @@ export function Text({
   size,
   bold,
   color,
+  textWhite,
   center,
   onPress,
   style,
@@ -98,7 +101,7 @@ export function Text({
         fontStyle,
         textStyle,
         bold ? tw`font-bold` : undefined,
-        tw`text-${color ?? "black"}`,
+        tw`text-${textWhite ? "white" : color ?? "black"}`,
       ]}
     >
       {children}

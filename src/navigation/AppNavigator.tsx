@@ -1,14 +1,11 @@
+import { Octicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { Animated, Platform, View } from "react-native";
 import { useSelector } from "react-redux";
-import { Octicons } from "@expo/vector-icons";
-import { i18n } from "../components/core/LanguageLoader";
-import { Text } from "../components/Text";
 import { languageState } from "../reducers/store";
-import React from "react";
 import {
   LocationScreen,
   MainScreen,
@@ -16,6 +13,7 @@ import {
   WeatherDetailScreen,
 } from "../screens";
 import { useTw } from "../theme";
+import { Palette } from "../theme/palette";
 import { HomeTabParamList, RootStackParamList } from "./screens";
 
 export const NAV_BAR_HEIGHT_PX = 80;
@@ -82,14 +80,14 @@ export const AppNavigator = () => {
 
   const tabMenuIcons = {
     MainScreen: (focused: boolean) => (
-      <Octicons name="home" size={30} color="black" />
+      <Octicons name="home" size={30} color={Palette.black80} />
     ),
 
     SearchScreen: (focused: boolean) => (
-      <Octicons name="search" size={30} color="black" />
+      <Octicons name="search" size={30} color={Palette.black80} />
     ),
     LocationScreen: (focused: boolean) => (
-      <Octicons name="location" size={30} color="black" />
+      <Octicons name="location" size={30} color={Palette.black80} />
     ),
   };
 
@@ -106,7 +104,7 @@ export const AppNavigator = () => {
       <View style={tw`grow justify-between items-center pt-[20%]`}>
         <TabMenuIcon />
         <View
-          style={tw`w-[50px] h-[3px] bg-${focused ? "black" : "transparent"}`}
+          style={tw`w-[60px] h-[3px] bg-${focused ? "black80" : "transparent"}`}
         />
       </View>
     );

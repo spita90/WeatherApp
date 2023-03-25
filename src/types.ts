@@ -25,7 +25,7 @@ export type City = {
   lon: number;
 };
 
-export interface WeatherResponse {
+export interface CurrentWeather {
   // Check https://openweathermap.org/current#:~:text=%3A%20200%0A%7D-,Fields%20in%20API%20response,-coord
   coord: {
     lon: number; // longitude
@@ -35,7 +35,7 @@ export interface WeatherResponse {
     // Check https://openweathermap.org/weather-conditions
     {
       id: number;
-      main: string;
+      main: WeatherType;
       description: string;
       icon: string;
     }
@@ -55,4 +55,14 @@ export interface WeatherResponse {
     sunset: number; // Sunrset time in UTC
   };
   cod: number; // Internal parameter
+}
+
+export enum WeatherType {
+  "Thunderstorm",
+  "Drizzle",
+  "Rain",
+  "Snow",
+  "Atmosphere",
+  "Clear",
+  "Clouds",
 }

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { config } from "../config";
-import { DomainError, WeatherResponse } from "../types";
+import { DomainError, CurrentWeather } from "../types";
 import { getOpenWeatherMapClient, noResponse } from "./client";
 
 const OPENWEATHERMAP_APPID = config.openWeatherMapAppId;
@@ -15,9 +15,9 @@ export const getCurrentWeatherData = async (
   lat: number,
   lon: number,
   lang: string
-): Promise<WeatherResponse> =>
+): Promise<CurrentWeather> =>
   getOpenWeatherMapClient()
-    .get<WeatherResponse>(`weather`, {
+    .get<CurrentWeather>(`weather`, {
       params: {
         lat: lat,
         lon: lon,

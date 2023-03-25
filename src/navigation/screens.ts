@@ -1,11 +1,12 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { AvailableCity } from "../types";
+import { CurrentWeather } from "../types";
 
 export type RootStackParamList = {
   WeatherDetailScreen: {
-    city: AvailableCity;
+    cityName: string;
+    currentWeather: CurrentWeather;
   };
   TabNavigation: undefined;
 };

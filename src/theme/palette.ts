@@ -1,8 +1,11 @@
 export const Palette = {
   red: "#f93f3e",
-  yellow: "#f6d524",
   green: "#00CC00",
-  background: "#031a15",
+  blue: "#262BD8",
+  yellow: "#f6d524",
+  detailStartBlue: "#567BE8",
+  detailEndBlue: "#76B8F4",
+  background: "#DDDDDD",
   screenBg: "#010D0A",
   white: "#fff",
   white10: "#FFFFFF10",
@@ -14,6 +17,7 @@ export const Palette = {
   grey50: "#88888850",
   lightGrey: "#999999",
   black: "#000",
+  black80: "#00000080",
   transparent: "#fff0",
 };
 

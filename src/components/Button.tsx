@@ -58,7 +58,7 @@ export const Button: React.FC<ButtonProps> = ({
       <View
         style={[
           tw`py-md px-lg rounded-5 items-center justify-center bg-${
-            color ?? "black"
+            color ?? "white"
           }`,
           { opacity: !disabled ? 1 : 0.6 },
           style,
