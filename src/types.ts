@@ -58,11 +58,11 @@ export interface CurrentWeather {
 }
 
 export enum WeatherType {
-  "Thunderstorm",
-  "Drizzle",
-  "Rain",
-  "Snow",
-  "Atmosphere",
-  "Clear",
-  "Clouds",
+  Thunderstorm = "Thunderstorm",
+  Drizzle = "Drizzle",
+  Rain = "Rain",
+  Snow = "Snow",
+  Atmosphere = "Atmosphere",
+  Clear = "Clear",
+  Clouds = "Clouds",
 }

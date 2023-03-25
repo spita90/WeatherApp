@@ -7,9 +7,8 @@ import { Text } from ".";
 import { openWeatherMapImageBaseUrl } from "../../App";
 import { languageState } from "../reducers/store";
 import { useTw } from "../theme";
-import { Palette } from "../theme/palette";
 import { CurrentWeather } from "../types";
-import { LocalizedDateFormat } from "../utils";
+import { BG_VARIANTS, LocalizedDateFormat } from "../utils";
 
 export interface CityItemProps {
   cityName: string;
@@ -31,7 +30,12 @@ export function CityItem({
   return (
     <LinearGradient
       style={tw`mb-md p-md rounded-lg`}
-      colors={[Palette.detailStartBlue, Palette.detailEndBlue]}
+      colors={[
+        BG_VARIANTS[currentWeather.weather[0].main].start,
+        BG_VARIANTS[currentWeather.weather[0].main].end,
+      ]}
+      start={{ x: 0.25, y: 0.25 }}
+      end={{ x: 0.75, y: 0.75 }}
     >
       <TouchableOpacity
         style={tw`w-full flex-row justify-between`}

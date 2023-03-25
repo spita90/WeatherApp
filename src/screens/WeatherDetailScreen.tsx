@@ -10,7 +10,7 @@ import { RootStackScreenProps } from "../navigation/screens";
 import { languageState } from "../reducers/store";
 import { useTw } from "../theme";
 import { Palette } from "../theme/palette";
-import { capitalize, LocalizedDateFormat } from "../utils";
+import { BG_VARIANTS, capitalize, LocalizedDateFormat } from "../utils";
 
 export function WeatherDetailScreen({
   navigation,
@@ -26,7 +26,10 @@ export function WeatherDetailScreen({
     <Screen>
       <LinearGradient
         style={tw`h-full grow items-center`}
-        colors={[Palette.detailStartBlue, Palette.detailEndBlue]}
+        colors={[
+          BG_VARIANTS[currentWeather.weather[0].main].start,
+          BG_VARIANTS[currentWeather.weather[0].main].end,
+        ]}
       >
         <View style={tw`w-full`}>
           <View style={tw`flex-row pt-sm items-center justify-between`}>

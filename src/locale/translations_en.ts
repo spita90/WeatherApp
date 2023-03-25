@@ -17,6 +17,8 @@ export const TRANSLATIONS_EN = {
     goodMorning: "Good morning!",
     addCity: "Add city",
     search: "Search",
+    emptyScreenPlaceholder:
+      "Nothing special here.\n🤷\nCheck out the screens beside!",
     language: "Language",
     end: "End",
     changeLanguage: "Change language",

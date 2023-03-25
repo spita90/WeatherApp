@@ -1,6 +1,38 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-root-toast";
-import { ColorsType } from "../theme/palette";
+import { ColorsType, Palette } from "../theme/palette";
+import { WeatherType } from "../types";
+
+export const BG_VARIANTS: { [type: string]: { start: string; end: string } } = {
+  [WeatherType.Thunderstorm]: {
+    start: Palette.weatherThunderstormStart,
+    end: Palette.weatherThunderstormEnd,
+  },
+  [WeatherType.Drizzle]: {
+    start: Palette.weatherDrizzleStart,
+    end: Palette.weatherDrizzleEnd,
+  },
+  [WeatherType.Rain]: {
+    start: Palette.weatherRainStart,
+    end: Palette.weatherRainEnd,
+  },
+  [WeatherType.Snow]: {
+    start: Palette.weatherSnowStart,
+    end: Palette.weatherSnowEnd,
+  },
+  [WeatherType.Atmosphere]: {
+    start: Palette.weatherAtmosphereStart,
+    end: Palette.weatherAtmosphereEnd,
+  },
+  [WeatherType.Clear]: {
+    start: Palette.weatherClearStart,
+    end: Palette.weatherClearEnd,
+  },
+  [WeatherType.Clouds]: {
+    start: Palette.weatherCloudsStart,
+    end: Palette.weatherCloudsEnd,
+  },
+};
 
 /**
  * Shows a toast message to the app user
