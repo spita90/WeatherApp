@@ -22,3 +22,8 @@ export const showToast = (
     delay: 0,
   });
 };
+
+export const LocalizedDateFormat: { [langCode: string]: string } = {
+  it: "dddd Do, MMMM",
+  en: "dddd Do, MMMM",
+};

@@ -6,13 +6,13 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { useTw } from "./src/theme";
 import { LanguageLoader } from "./src/components";
 import { AppLoader } from "./src/components/core/AppLoader";
 import { ErrorFragment } from "./src/components/fragments/ErrorFragment";
 import { AppNavigator } from "./src/navigation/AppNavigator";
 import { persistor, store } from "./src/reducers/store";
-import { City, DomainError } from "./src/types";
+import { useTw } from "./src/theme";
+import { DomainError } from "./src/types";
 
 export const WEB_APP_MAX_WIDTH_PX = 600;
 export const SCREEN_AVAILABLE_WIDTH = Math.min(

@@ -5,7 +5,7 @@ export const Palette = {
   yellow: "#f6d524",
   detailStartBlue: "#567BE8",
   detailEndBlue: "#76B8F4",
-  background: "#DDDDDD",
+  background: "#DDDDD",
   screenBg: "#010D0A",
   white: "#fff",
   white10: "#FFFFFF10",

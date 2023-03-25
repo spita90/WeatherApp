@@ -31,7 +31,7 @@ export function Screen({
 }: ScreenProps) {
   const statusBg = statusBackgroundColor
     ? statusBackgroundColor
-    : Palette.background;
+    : "transparent";
   const tw = useTw();
   return (
     <SafeAreaView style={[{ flex: 1 }, style]}>
@@ -40,9 +40,7 @@ export function Screen({
         barStyle={"dark-content"}
         animated
       />
-      <View style={tw`flex-1 ${padded ? "px-xs" : ""} bg-background`}>
-        {children}
-      </View>
+      <View style={tw`flex-1 ${padded ? "px-xs" : ""}`}>{children}</View>
     </SafeAreaView>
   );
 }

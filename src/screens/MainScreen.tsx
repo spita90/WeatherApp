@@ -1,11 +1,12 @@
 import { LinearGradient } from "expo-linear-gradient";
+import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
-  TouchableOpacity,
-  View,
   Image,
   RefreshControl,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSelector } from "react-redux";
 import {
@@ -20,7 +21,7 @@ import { languageState, userState } from "../reducers/store";
 import { useTw } from "../theme";
 import { Palette } from "../theme/palette";
 import { CurrentWeather } from "../types";
-import { showToast } from "../utils";
+import { LocalizedDateFormat, showToast } from "../utils";
 
 const openWeatherMapImageBaseUrl = "https://openweathermap.org/img/wn";
 
@@ -33,51 +34,55 @@ export function MainScreen({ navigation }: HomeTabScreenProps<"MainScreen">) {
   }>({});
   const [refreshing, setRefreshing] = useState<boolean>(true);
 
-  const CityItem = ({
-    cityName,
-    weatherResponse,
-  }: {
-    cityName: string;
-    weatherResponse: CurrentWeather;
-  }) => {
-    const icon = weatherResponse.weather[0].icon;
-    return (
-      <LinearGradient
-        style={tw`mb-md p-md rounded-lg`}
-        colors={[Palette.detailStartBlue, Palette.detailEndBlue]}
-      >
-        <TouchableOpacity
-          style={tw`w-full flex-row justify-between`}
-          onPress={() =>
-            navigation.navigate("WeatherDetailScreen", {
-              cityName: cityName,
-              currentWeather: currentWeather[cityName],
-            })
-          }
+  useEffect(() => {
+    if (!langCode) return;
+    moment.locale(langCode);
+  }, [langCode]);
+
+  const CityItem = useCallback(
+    ({ cityName }: { cityName: string }) => {
+      const icon = currentWeather[cityName].weather[0].icon;
+      return (
+        <LinearGradient
+          style={tw`mb-md p-md rounded-lg`}
+          colors={[Palette.detailStartBlue, Palette.detailEndBlue]}
         >
-          <View style={tw`flex-1 justify-start`}>
-            <Text textStyle={tw`text-2xl`} textWhite>
-              {cityName}
-            </Text>
-            <Text textWhite>{new Date().toLocaleDateString(langCode)}</Text>
-          </View>
-          {!!icon && (
-            <Image
-              style={tw`w-[100px] h-[100px] flex-1`}
-              source={{
-                uri: `${openWeatherMapImageBaseUrl}/${icon}@2x.png`,
-              }}
-            />
-          )}
-          <Text
-            style={tw`flex-1 pr-xs justify-center items-end`}
-            textStyle={tw`text-5xl`}
-            textWhite
-          >{`${Math.floor(weatherResponse.main.temp)}°`}</Text>
-        </TouchableOpacity>
-      </LinearGradient>
-    );
-  };
+          <TouchableOpacity
+            style={tw`w-full flex-row justify-between`}
+            onPress={() =>
+              navigation.navigate("WeatherDetailScreen", {
+                cityName: cityName,
+                currentWeather: currentWeather[cityName],
+              })
+            }
+          >
+            <View style={tw`flex-1 justify-start`}>
+              <Text textStyle={tw`text-2xl`} textWhite>
+                {cityName}
+              </Text>
+              <Text textWhite>
+                {moment(new Date()).format(LocalizedDateFormat[langCode])}
+              </Text>
+            </View>
+            {!!icon && (
+              <Image
+                style={tw`w-[100px] h-[100px] flex-1`}
+                source={{
+                  uri: `${openWeatherMapImageBaseUrl}/${icon}@2x.png`,
+                }}
+              />
+            )}
+            <Text
+              style={tw`flex-1 pr-xs justify-center items-end`}
+              textStyle={tw`text-5xl`}
+              textWhite
+            >{`${Math.floor(currentWeather[cityName].main.temp)}°`}</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      );
+    },
+    [langCode, currentWeather]
+  );
 
   const ScreenContent = useCallback(
     () => (
@@ -102,10 +107,7 @@ export function MainScreen({ navigation }: HomeTabScreenProps<"MainScreen">) {
           }
           renderItem={({ item: city }) => (
             <View style={tw`px-md`}>
-              <CityItem
-                cityName={city}
-                weatherResponse={currentWeather[city]}
-              />
+              <CityItem cityName={city} />
             </View>
           )}
         />
