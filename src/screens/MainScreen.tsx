@@ -144,7 +144,6 @@ export function MainScreen({ navigation }: HomeTabScreenProps<"MainScreen">) {
 
   useEffect(() => {
     if (!cities) return;
-    console.log(cities.map((c) => c.name));
     fetchWeatherData();
   }, [cities]);
 

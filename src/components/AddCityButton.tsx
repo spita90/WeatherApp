@@ -2,10 +2,9 @@ import { Octicons } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
 import { useTw } from "../theme";
-import { ColorsType } from "../theme/palette";
 
 export interface AddCityButtonProps {
-  color?: ColorsType | string;
+  color?: string;
 }
 
 export function AddCityButton({ color }: AddCityButtonProps) {
@@ -17,7 +16,7 @@ export function AddCityButton({ color }: AddCityButtonProps) {
         color ?? "white"
       } rounded-sm items-center justify-center`}
     >
-      <Octicons name="plus" size={24} />
+      <Octicons name="plus" size={24} color={color ?? "white"} />
     </View>
   );
 }
