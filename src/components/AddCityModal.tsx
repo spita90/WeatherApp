@@ -6,6 +6,7 @@ import { userState } from "../reducers/store";
 import { addCity } from "../reducers/userReducer";
 import { useTw } from "../theme";
 import { capitalize, showToast } from "../utils";
+import { i18n } from "./core/LanguageLoader";
 
 const LAT_LON_MATCHER = new RegExp("^-?\\d+(?:[.,]\\d+)?$");
 
@@ -27,11 +28,14 @@ export function AddCityModal({ visible, setVisible }: AddCityModalProps) {
 
   const fieldsAreValid = () => {
     const allInputsFilled =
+      !!addCityName &&
+      !!addCityLat &&
+      !!addCityLon &&
       addCityName.trim().length > 0 &&
       addCityLat.trim().length > 0 &&
       addCityLon.trim().length > 0;
     if (!allInputsFilled) {
-      showToast("a");
+      showToast(i18n.t("l.addCitySomeFieldsAreNotFilled"));
       return false;
     }
 
@@ -39,7 +43,7 @@ export function AddCityModal({ visible, setVisible }: AddCityModalProps) {
       LAT_LON_MATCHER.test(addCityLat.trim()) &&
       LAT_LON_MATCHER.test(addCityLon.trim());
     if (!latLonAreRegexValid) {
-      showToast("b");
+      showToast(i18n.t("l.addCityLatLonIncorrectFormat"));
       return false;
     }
 
@@ -52,38 +56,51 @@ export function AddCityModal({ visible, setVisible }: AddCityModalProps) {
     const latLonAreSemanticallyValid =
       Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
     if (!latLonAreSemanticallyValid) {
-      showToast("c");
+      showToast(i18n.t("l.addCityLatLonSemanticallyIncorrect"));
       return false;
     }
 
     return true;
   };
 
+  const resetFields = () => {
+    setAddCityName("");
+    setAddCityLat("");
+    setAddCityLon("");
+  };
+
   const tryAddCity = () => {
     Keyboard.dismiss();
+    if (!fieldsAreValid()) return;
     const properAddCityName = capitalize(addCityName.trim());
     if (cities.map((city) => city.name).includes(properAddCityName)) {
-      return showToast("d");
+      return showToast(i18n.t("l.addCityAlreadyPresent"));
     }
-    if (fieldsAreValid()) {
-      addCity({
-        name: properAddCityName,
-        lat: Number(LAT_LON_MATCHER.exec(addCityLat.trim())![0]),
-        lon: Number(LAT_LON_MATCHER.exec(addCityLon.trim())![0]),
-      });
-      setAddCityName("");
-      setAddCityLat("");
-      setAddCityLon("");
-      setVisible(false);
-    }
+    addCity({
+      name: properAddCityName,
+      lat: Number(LAT_LON_MATCHER.exec(addCityLat.trim())![0]),
+      lon: Number(LAT_LON_MATCHER.exec(addCityLon.trim())![0]),
+    });
+    resetFields();
+    setVisible(false);
   };
 
   return (
-    <SlidingModal title="dfsdf" visible={visible} setVisible={setVisible}>
+    <SlidingModal
+      title={i18n.t("l.addCity")}
+      visible={visible}
+      setVisible={(visible: boolean) => {
+        if (!visible) {
+          Keyboard.dismiss();
+          resetFields();
+        }
+        setVisible(visible);
+      }}
+    >
       <View>
         <AnimatedTextInput
           style={tw`mb-sm`}
-          label={"NAMMEEE"}
+          label={i18n.t("l.cityName")}
           value={addCityName}
           onChangeText={setAddCityName}
           returnKeyType="next"
@@ -97,7 +114,7 @@ export function AddCityModal({ visible, setVisible }: AddCityModalProps) {
           textInputRef={latTextInputRef}
           style={tw`mb-sm`}
           keyboardType="decimal-pad"
-          label={"LATT"}
+          label={i18n.t("l.latitude")}
           value={addCityLat}
           onChangeText={setAddCityLat}
           returnKeyType="next"
@@ -113,16 +130,16 @@ export function AddCityModal({ visible, setVisible }: AddCityModalProps) {
           keyboardType="decimal-pad"
           value={addCityLon}
           onChangeText={setAddCityLon}
-          label={"LOOOONN"}
+          label={i18n.t("l.longitude")}
           returnKeyType="done"
           onSubmitEditing={() => tryAddCity()}
         />
         <Button
-          style={tw`w-[50%] self-end`}
-          color="red"
+          style={tw`w-[30%] self-end items-end`}
+          color="transparent"
           onPress={() => tryAddCity()}
         >
-          <Text>OKKKK</Text>
+          <Text>{i18n.t("l.ok")}</Text>
         </Button>
       </View>
     </SlidingModal>

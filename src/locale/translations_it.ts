@@ -16,6 +16,15 @@ export const TRANSLATIONS_IT = {
     settings: "Impostazioni",
     goodMorning: "Buongiorno!",
     addCity: "Aggiungi città",
+    addCitySomeFieldsAreNotFilled: "Alcuni campi non sono stati compilati!",
+    addCityLatLonIncorrectFormat:
+      "Il formato di latitudine/longitudine non è valido! Usare la notazione decimale (DD.DDD)",
+    addCityLatLonSemanticallyIncorrect:
+      "Latitudine/longitudine non valide! Devono essere -90<=Lat<=90, -180<=Lon<=180",
+    addCityAlreadyPresent: "Città già presente!",
+    cityName: "Nome città",
+    latitude: "Latitudine",
+    longitude: "Longitudine",
     search: "Cerca",
     emptyScreenPlaceholder:
       "Nulla di speciale qui.\n🤷\nGuarda le schermate accanto!",

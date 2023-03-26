@@ -16,6 +16,15 @@ export const TRANSLATIONS_EN = {
     settings: "Settings",
     goodMorning: "Good morning!",
     addCity: "Add city",
+    addCitySomeFieldsAreNotFilled: "Some fields are not filled!",
+    addCityLatLonIncorrectFormat:
+      "Invalid latitude/longitude format! Please use decimal notation (DD.DDD)",
+    addCityLatLonSemanticallyIncorrect:
+      "Invalid latitude/longitude! Must be -90<=Lat<=90, -180<=Lon<=180",
+    addCityAlreadyPresent: "City already present!",
+    cityName: "City name",
+    latitude: "Latitude",
+    longitude: "Longitude",
     search: "Search",
     emptyScreenPlaceholder:
       "Nothing special here.\n🤷\nCheck out the screens beside!",
