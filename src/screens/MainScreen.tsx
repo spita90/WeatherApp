@@ -28,7 +28,7 @@ export function MainScreen({ navigation }: HomeTabScreenProps<"MainScreen">) {
   const [currentWeather, setCurrentWeather] = useState<{
     [cityName: string]: CurrentWeather;
   }>({});
-  const [refreshing, setRefreshing] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [addCityModalIsOpen, setAddCityModalOpen] = useState<boolean>(false);
 
   useEffect(() => {

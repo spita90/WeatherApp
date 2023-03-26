@@ -4,11 +4,11 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { CurrentWeather } from "../types";
 
 export type RootStackParamList = {
+  TabNavigation: undefined;
   WeatherDetailScreen: {
     cityName: string;
     currentWeather: CurrentWeather;
   };
-  TabNavigation: undefined;
 };
 
 export type HomeTabParamList = {

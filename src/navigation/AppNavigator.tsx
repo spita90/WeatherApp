@@ -129,7 +129,7 @@ export const AppNavigator = () => {
           <Stack.Screen
             name="WeatherDetailScreen"
             component={WeatherDetailScreen}
-            options={{ presentation: "modal" }}
+            options={{ presentation: "card" }}
           />
           <Stack.Screen name="TabNavigation" component={TabNavigator} />
         </Stack.Navigator>
