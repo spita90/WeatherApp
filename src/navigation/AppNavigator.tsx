@@ -2,7 +2,7 @@ import { Octicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Animated, Platform, View } from "react-native";
 import { useSelector } from "react-redux";
 import { languageState } from "../reducers/store";
@@ -52,34 +52,8 @@ export const AppNavigator = () => {
     }).start();
   }, []);
 
-  /**
-   * The bottom tab navigator
-   */
-  const TabNavigator = useCallback(
-    () => (
-      <Tab.Navigator
-        initialRouteName={"MainScreen"}
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) =>
-            renderIcon({ name: route.name, focused }),
-          tabBarStyle: [
-            tw`bg-white m-md rounded-lg`,
-            { height: NAV_BAR_HEIGHT_PX },
-          ],
-        })}
-      >
-        <Tab.Screen name="MainScreen" component={MainScreen} />
-        <Tab.Screen name="SearchScreen" component={SearchScreen} />
-        <Tab.Screen name="LocationScreen" component={LocationScreen} />
-      </Tab.Navigator>
-    ),
-    [languageCode]
-  );
-
   const tabMenuIcons = {
-    MainScreen: (focused: boolean) => (
+    MainStack: (focused: boolean) => (
       <Octicons name="home" size={30} color={Palette.black80} />
     ),
 
@@ -110,6 +84,23 @@ export const AppNavigator = () => {
     );
   };
 
+  const MainScreenStack = () => (
+    <Stack.Navigator
+      detachInactiveScreens={true}
+      initialRouteName={"MainScreen"}
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="MainScreen" component={MainScreen} />
+      <Stack.Screen
+        name="WeatherDetailScreen"
+        component={WeatherDetailScreen}
+        options={{ presentation: "card" }}
+      />
+    </Stack.Navigator>
+  );
+
   return (
     <Animated.View
       style={[tw`absolute top-0 w-full h-full`, { opacity: fadeInAnim }]}
@@ -119,20 +110,23 @@ export const AppNavigator = () => {
           formatter: () => `WeatherApp`,
         }}
       >
-        <Stack.Navigator
-          detachInactiveScreens={true}
-          initialRouteName={"TabNavigation"}
-          screenOptions={{
+        <Tab.Navigator
+          initialRouteName={"MainStack"}
+          screenOptions={({ route }) => ({
             headerShown: false,
-          }}
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused }) =>
+              renderIcon({ name: route.name, focused }),
+            tabBarStyle: [
+              tw`bg-white m-md rounded-lg`,
+              { height: NAV_BAR_HEIGHT_PX },
+            ],
+          })}
         >
-          <Stack.Screen
-            name="WeatherDetailScreen"
-            component={WeatherDetailScreen}
-            options={{ presentation: "card" }}
-          />
-          <Stack.Screen name="TabNavigation" component={TabNavigator} />
-        </Stack.Navigator>
+          <Tab.Screen name="MainStack" component={MainScreenStack} />
+          <Tab.Screen name="SearchScreen" component={SearchScreen} />
+          <Tab.Screen name="LocationScreen" component={LocationScreen} />
+        </Tab.Navigator>
       </NavigationContainer>
     </Animated.View>
   );

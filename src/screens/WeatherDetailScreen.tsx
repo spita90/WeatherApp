@@ -9,7 +9,6 @@ import { AddCityButton, Screen, Text } from "../components";
 import { RootStackScreenProps } from "../navigation/screens";
 import { languageState } from "../reducers/store";
 import { useTw } from "../theme";
-import { Palette } from "../theme/palette";
 import { BG_VARIANTS, capitalize, LocalizedDateFormat } from "../utils";
 
 export function WeatherDetailScreen({

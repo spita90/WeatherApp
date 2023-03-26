@@ -14,14 +14,14 @@ import {
   Text,
 } from "../components";
 import { i18n } from "../components/core/LanguageLoader";
-import { HomeTabScreenProps } from "../navigation/screens";
+import { RootStackScreenProps } from "../navigation/screens";
 import { languageState, userState } from "../reducers/store";
 import { removeCity } from "../reducers/userReducer";
 import { useTw } from "../theme";
 import { CurrentWeather } from "../types";
 import { errorHandler, showToast } from "../utils";
 
-export function MainScreen({ navigation }: HomeTabScreenProps<"MainScreen">) {
+export function MainScreen({ navigation }: RootStackScreenProps<"MainScreen">) {
   const tw = useTw();
   const { name, cities } = useSelector(userState);
   const { code: langCode } = useSelector(languageState);

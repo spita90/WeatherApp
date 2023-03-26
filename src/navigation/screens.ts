@@ -4,7 +4,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { CurrentWeather } from "../types";
 
 export type RootStackParamList = {
-  TabNavigation: undefined;
+  MainScreen: undefined;
   WeatherDetailScreen: {
     cityName: string;
     currentWeather: CurrentWeather;
@@ -12,7 +12,7 @@ export type RootStackParamList = {
 };
 
 export type HomeTabParamList = {
-  MainScreen: undefined;
+  MainStack: undefined;
   SearchScreen: undefined;
   LocationScreen: undefined;
 };
