@@ -12,9 +12,15 @@ export const TRANSLATIONS_IT = {
       "Questa App ti consente di vedere il meteo e le previsioni delle tue città preferite",
     insertName: "Presentiamoci!\n😃\nCome ti chiami?",
     insertNameInputCaption: "Nome",
+    tutorial: "Tutorial",
+    tapIconToAddCity: "Premi l'icona per aggiungere una città",
+    tapCityToCheckOutDetail:
+      "Premi la città per conoscere meteo attuale e previsioni",
+    longTapCityToDelete: "Tieni premuta la città per eliminarla",
+    goAheadToBegin: "Vai avanti per iniziare!",
     save: "Salva",
     settings: "Impostazioni",
-    goodMorning: "Buongiorno!",
+    goodMorning: "Buongiorno",
     addCity: "Aggiungi città",
     addCitySomeFieldsAreNotFilled: "Alcuni campi non sono stati compilati!",
     addCityLatLonIncorrectFormat:

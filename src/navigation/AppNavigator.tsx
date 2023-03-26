@@ -2,7 +2,7 @@ import { Octicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { Animated, Platform, View } from "react-native";
 import { useSelector } from "react-redux";
 import { languageState } from "../reducers/store";
@@ -101,6 +101,29 @@ export const AppNavigator = () => {
     </Stack.Navigator>
   );
 
+  const TabNavigator = useCallback(
+    () => (
+      <Tab.Navigator
+        initialRouteName={"MainStack"}
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) =>
+            renderIcon({ name: route.name, focused }),
+          tabBarStyle: [
+            tw`bg-white m-md rounded-lg`,
+            { height: NAV_BAR_HEIGHT_PX },
+          ],
+        })}
+      >
+        <Tab.Screen name="MainStack" component={MainScreenStack} />
+        <Tab.Screen name="SearchScreen" component={SearchScreen} />
+        <Tab.Screen name="LocationScreen" component={LocationScreen} />
+      </Tab.Navigator>
+    ),
+    [languageCode]
+  );
+
   return (
     <Animated.View
       style={[tw`absolute top-0 w-full h-full`, { opacity: fadeInAnim }]}
@@ -110,23 +133,7 @@ export const AppNavigator = () => {
           formatter: () => `WeatherApp`,
         }}
       >
-        <Tab.Navigator
-          initialRouteName={"MainStack"}
-          screenOptions={({ route }) => ({
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) =>
-              renderIcon({ name: route.name, focused }),
-            tabBarStyle: [
-              tw`bg-white m-md rounded-lg`,
-              { height: NAV_BAR_HEIGHT_PX },
-            ],
-          })}
-        >
-          <Tab.Screen name="MainStack" component={MainScreenStack} />
-          <Tab.Screen name="SearchScreen" component={SearchScreen} />
-          <Tab.Screen name="LocationScreen" component={LocationScreen} />
-        </Tab.Navigator>
+        <TabNavigator />
       </NavigationContainer>
     </Animated.View>
   );

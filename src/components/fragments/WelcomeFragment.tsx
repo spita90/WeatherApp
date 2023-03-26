@@ -1,3 +1,4 @@
+import { Octicons } from "@expo/vector-icons";
 import React, {
   useCallback,
   useEffect,
@@ -8,16 +9,16 @@ import React, {
 import {
   Animated,
   Easing,
-  Platform,
-  View,
   Image,
   Keyboard,
+  Platform,
+  View,
 } from "react-native";
-import { Octicons } from "@expo/vector-icons";
-import { AnimatedTextInput, Button, Text } from "../";
+import { AddCityButton, AnimatedTextInput, Button, CityItem, Text } from "../";
 import { SCREEN_AVAILABLE_WIDTH } from "../../../App";
 import { setFirstUse, setName } from "../../reducers/userReducer";
 import { useTw } from "../../theme";
+import { CurrentWeather, WeatherType } from "../../types";
 import { i18n } from "../core/LanguageLoader";
 
 export function WelcomeFragment() {
@@ -33,6 +34,7 @@ export function WelcomeFragment() {
     [username]
   );
 
+  const cityItemAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const hiSlideAnim = useRef(
     new Animated.Value(3 * SCREEN_AVAILABLE_WIDTH)
@@ -98,24 +100,47 @@ export function WelcomeFragment() {
           value={username}
           onChangeText={onUsernameInputValueChanged}
           returnKeyType="done"
-          // blurOnSubmit={false}
-          // onSubmitEditing={() => {
-          //   //@ts-ignore
-          //   repoTextInputRef.current.focus();
-          // }}
         />
       </View>
     );
   }, []);
 
+  const dummyCurrentWeather: CurrentWeather = {
+    weather: [
+      {
+        main: WeatherType.Drizzle,
+        description: "Weather description",
+        icon: "02d",
+      },
+    ],
+    main: {
+      temp: Math.floor(Math.random() * 20),
+    },
+  };
+
   const Page2 = useCallback(() => {
     return (
-      <View
-        style={[
-          tw`items-center justify-center`,
-          { width: SCREEN_AVAILABLE_WIDTH },
-        ]}
-      ></View>
+      <View style={[tw`items-center`, { width: SCREEN_AVAILABLE_WIDTH }]}>
+        <Text style={tw`mt-[20%]`} textStyle={tw`text-5xl`} bold>
+          {i18n.t("l.tutorial")}
+        </Text>
+        <View style={tw`my-xl flex-row items-center`}>
+          <Text style={tw`mr-sm`}>{i18n.t("l.tapIconToAddCity")}</Text>
+          <AddCityButton color="black" />
+        </View>
+        <View style={tw`mt-xl px-lg`}>
+          <Text center>{i18n.t("l.tapCityToCheckOutDetail")}</Text>
+          <Animated.View style={[tw`mt-md`, { opacity: cityItemAnim }]}>
+            <CityItem cityName={"Dummy"} currentWeather={dummyCurrentWeather} />
+          </Animated.View>
+        </View>
+        <View style={tw`mt-lg`}>
+          <Text center>{i18n.t("l.longTapCityToDelete")}</Text>
+        </View>
+        <View style={tw`flex-1 justify-end`}>
+          <Text size="tt">{i18n.t("l.goAheadToBegin")}</Text>
+        </View>
+      </View>
     );
   }, []);
 
@@ -157,6 +182,34 @@ export function WelcomeFragment() {
         useNativeDriver: Platform.OS !== "web",
       }).start(() => finish());
   }, [currentPageNumber, finishing]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (currentPageNumber === 2) {
+        const animationRef = Animated.timing(cityItemAnim, {
+          toValue: 0,
+          duration: 1500,
+          useNativeDriver: Platform.OS !== "web",
+        });
+        cityItemAnim.addListener((animation) => {
+          if (animation.value === 0) {
+            setTimeout(() => {
+              cityItemAnim.setValue(1);
+              setTimeout(() => {
+                animationRef.start();
+              }, 1000);
+            }, 1000);
+          }
+        });
+        animationRef.start();
+      } else {
+        cityItemAnim.setValue(1);
+      }
+    }, 1000);
+    return () => {
+      cityItemAnim.removeAllListeners();
+    };
+  }, [currentPageNumber]);
 
   const Navigation = useCallback(
     () => (

@@ -27,14 +27,14 @@ export type City = {
 
 export interface CurrentWeather {
   // Check https://openweathermap.org/current#:~:text=%3A%20200%0A%7D-,Fields%20in%20API%20response,-coord
-  coord: {
+  coord?: {
     lon: number; // longitude
     lat: number; // latitude
   };
   weather: [
     // Check https://openweathermap.org/weather-conditions
     {
-      id: number;
+      id?: number;
       main: WeatherType;
       description: string;
       icon: string;
@@ -42,19 +42,19 @@ export interface CurrentWeather {
   ];
   main: {
     temp: number; // Temperature in chosen units
-    feels_like: number; // Felt temperature in chosen units
-    temp_min: number; // Minimum temperature in chosen units
-    temp_max: number; // Maximum temperature in chosen units
-    pressure: number; // Atmospheric pressure in hPa
-    humidity: number; // Humidity in %
+    feels_like?: number; // Felt temperature in chosen units
+    temp_min?: number; // Minimum temperature in chosen units
+    temp_max?: number; // Maximum temperature in chosen units
+    pressure?: number; // Atmospheric pressure in hPa
+    humidity?: number; // Humidity in %
   };
-  dt: number; // Time of data calculation in UTC
-  sys: {
+  dt?: number; // Time of data calculation in UTC
+  sys?: {
     country: string; // Country code
     sunrise: number; // Sunrise time in UTC
     sunset: number; // Sunrset time in UTC
   };
-  cod: number; // Internal parameter
+  cod?: number; // Internal parameter
 }
 
 export enum WeatherType {

@@ -29,7 +29,7 @@ export function CityItem({
 
   return (
     <LinearGradient
-      style={tw`mb-md p-md rounded-lg`}
+      style={tw`max-w-[100%] mb-md p-md rounded-lg`}
       colors={[
         BG_VARIANTS[currentWeather.weather[0].main].start,
         BG_VARIANTS[currentWeather.weather[0].main].end,

@@ -13,9 +13,14 @@ const LAT_LON_MATCHER = new RegExp("^-?\\d+(?:[.,]\\d+)?$");
 export interface AddCityModalProps {
   visible: boolean;
   setVisible: (visible: boolean) => void;
+  onCitySuccessfullyAdded?: (cityName: string) => void;
 }
 
-export function AddCityModal({ visible, setVisible }: AddCityModalProps) {
+export function AddCityModal({
+  visible,
+  setVisible,
+  onCitySuccessfullyAdded,
+}: AddCityModalProps) {
   const tw = useTw();
   const { cities } = useSelector(userState);
 
@@ -83,6 +88,7 @@ export function AddCityModal({ visible, setVisible }: AddCityModalProps) {
     });
     resetFields();
     setVisible(false);
+    onCitySuccessfullyAdded && onCitySuccessfullyAdded(properAddCityName);
   };
 
   return (

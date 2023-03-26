@@ -12,9 +12,15 @@ export const TRANSLATIONS_EN = {
       "This App lets you see weather and forecasts of your favourite cities",
     insertName: "Let's introduce ourselves!\n😃\nWhat is your name?",
     insertNameInputCaption: "Name",
+    tutorial: "Tutorial",
+    tapIconToAddCity: "Tap the icon to add a new city",
+    tapCityToCheckOutDetail:
+      "Tap the city to check out its current weather and forecasts",
+    longTapCityToDelete: "Long tap on cities to delete them",
+    goAheadToBegin: "Go ahead to begin!",
     save: "Save",
     settings: "Settings",
-    goodMorning: "Good morning!",
+    goodMorning: "Good morning",
     addCity: "Add city",
     addCitySomeFieldsAreNotFilled: "Some fields are not filled!",
     addCityLatLonIncorrectFormat:

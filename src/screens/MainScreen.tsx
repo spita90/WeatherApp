@@ -102,7 +102,7 @@ export function MainScreen({ navigation }: RootStackScreenProps<"MainScreen">) {
           color={"darkBlue"}
           bold
         >
-          {i18n.t("l.goodMorning")}
+          {`${i18n.t("l.goodMorning")}`}
         </Text>
         <Text
           style={tw`mt-xs`}
@@ -110,7 +110,7 @@ export function MainScreen({ navigation }: RootStackScreenProps<"MainScreen">) {
           color={"darkBlue"}
           bold
         >
-          {name}
+          {`${name}!`}
         </Text>
       </View>
     ),
