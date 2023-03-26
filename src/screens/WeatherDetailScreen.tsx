@@ -168,7 +168,7 @@ export function WeatherDetailScreen({
                     <Text>{dailyForecast.temp}</Text>
                     <Text>{dailyForecast.time.getDate()}</Text>
                     <Image
-                      style={tw`w-[40px] h-[40px]`}
+                      style={tw`w-[60px] h-[60px]`}
                       source={{
                         uri: `${openWeatherMapImageBaseUrl}/${dailyForecast.icon}@2x.png`,
                       }}
