@@ -113,13 +113,13 @@ export function WelcomeFragment() {
   const dummyCurrentWeather: CurrentWeather = {
     weather: [
       {
-        main: WeatherType.Drizzle,
+        main: WeatherType.Clear,
         description: "Weather description",
-        icon: "02d",
+        icon: "01d",
       },
     ],
     main: {
-      temp: Math.floor(Math.random() * 20),
+      temp: 24,
     },
   };
 

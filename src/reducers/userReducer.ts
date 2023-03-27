@@ -24,7 +24,7 @@ const userSlice = createSlice({
       state.name = action.payload;
     },
     _addCity(state, action: PayloadAction<City>) {
-      state.cities.push(action.payload);
+      state.cities = [action.payload, ...state.cities];
     },
     _removeCity(state, action: PayloadAction<string>) {
       state.cities = state.cities.filter(

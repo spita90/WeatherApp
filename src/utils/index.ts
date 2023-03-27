@@ -81,5 +81,20 @@ export const LocalizedDateFormat: { [langCode: string]: string } = {
   en: "dddd Do, MMMM",
 };
 
+/**
+ * To each WeatherType is associated an appropriate OpenWeatherMap icon
+ */
+export const MOCKED_DAILY_FORECASTS_ICONS: {
+  [weatherType in WeatherType]: string;
+} = {
+  [WeatherType.Thunderstorm]: "11d",
+  [WeatherType.Drizzle]: "09d",
+  [WeatherType.Rain]: "10d",
+  [WeatherType.Snow]: "13d",
+  [WeatherType.Atmosphere]: "50d",
+  [WeatherType.Clear]: "01d",
+  [WeatherType.Clouds]: "03d",
+};
+
 export const capitalize = (string: string) =>
   `${string[0].toUpperCase()}${string.slice(1)}`;

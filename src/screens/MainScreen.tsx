@@ -135,7 +135,11 @@ export function MainScreen({ navigation }: RootStackScreenProps<"MainScreen">) {
       <FlatList
         style={tw`h-full mt-xxl mx-md rounded-lg overflow-hidden`}
         showsVerticalScrollIndicator={false}
-        data={Object.keys(currentWeather)}
+        // currentWeather keys order follows cities array order
+        data={Object.keys(currentWeather).sort((a, b) => {
+          const cityNames = cities.map((city) => city.name);
+          return cityNames.indexOf(a) - cityNames.indexOf(b);
+        })}
         keyExtractor={(_, index) => index.toString()}
         ListFooterComponent={
           <View style={tw`mb-[${NAV_BAR_HEIGHT_PX + 20}]`} />

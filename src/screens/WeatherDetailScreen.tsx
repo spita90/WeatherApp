@@ -19,7 +19,12 @@ import { languageState } from "../reducers/store";
 import { useTw } from "../theme";
 import { Palette } from "../theme/palette";
 import { WeatherType } from "../types";
-import { BG_VARIANTS, capitalize, LocalizedDateFormat } from "../utils";
+import {
+  BG_VARIANTS,
+  capitalize,
+  LocalizedDateFormat,
+  MOCKED_DAILY_FORECASTS_ICONS,
+} from "../utils";
 
 interface HourlyForecast {
   time: Date;
@@ -32,19 +37,6 @@ interface DailyForecast {
   weatherType: WeatherType;
   icon: string;
 }
-
-/**
- * To each WeatherType is associated an appropriate OpenWeatherMap icon
- */
-const MOCKED_DAILY_FORECASTS_ICONS: { [weatherType in WeatherType]: string } = {
-  [WeatherType.Thunderstorm]: "11d",
-  [WeatherType.Drizzle]: "09d",
-  [WeatherType.Rain]: "10d",
-  [WeatherType.Snow]: "13d",
-  [WeatherType.Atmosphere]: "50d",
-  [WeatherType.Clear]: "01d",
-  [WeatherType.Clouds]: "03d",
-};
 
 export function WeatherDetailScreen({
   navigation,
@@ -154,23 +146,30 @@ export function WeatherDetailScreen({
       hourlyForecast: HourlyForecast;
       bold?: boolean;
       showNow?: boolean;
-    }) => (
-      <View style={tw`w-[70px] mx-sm justify-between items-center`}>
-        <Text
-          style={tw`h-[30px] justify-end`}
-          size={bold ? "tt" : "md"}
-          color={bold ? "white" : "white/60"}
-        >
-          {showNow ? i18n.t("l.now") : hourlyForecast.time.getHours()}
-        </Text>
-        <View style={tw`h-[20px] w-[20px] my-[10px] bg-white rounded-[10px]`} />
-        <Text
-          style={tw`h-[30px] justify-start`}
-          size={bold ? "lg" : "md"}
-          color={bold ? "white" : "white/60"}
-        >{`${Math.floor(hourlyForecast.temp)}°`}</Text>
-      </View>
-    ),
+    }) => {
+      const circleIconSize = bold ? 20 : 16;
+      return (
+        <View style={tw`w-[70px] mx-sm justify-between items-center`}>
+          <Text
+            style={tw`h-[30px] justify-end`}
+            size={bold ? "tt" : "md"}
+            color={bold ? "white" : "white/60"}
+          >
+            {showNow ? i18n.t("l.now") : `${hourlyForecast.time.getHours()}:00`}
+          </Text>
+          <View
+            style={tw`h-[${circleIconSize}px] w-[${circleIconSize}px] my-[10px] bg-white rounded-[${
+              circleIconSize / 2
+            }px]`}
+          />
+          <Text
+            style={tw`h-[30px] justify-start`}
+            size={bold ? "lg" : "md"}
+            color={bold ? "white" : "white/60"}
+          >{`${Math.floor(hourlyForecast.temp)}°`}</Text>
+        </View>
+      );
+    },
     []
   );
 
