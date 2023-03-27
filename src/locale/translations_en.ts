@@ -7,6 +7,7 @@ export const TRANSLATIONS_EN = {
     back: "Back",
     prev: "Prev",
     next: "Next",
+    now: "Now",
     welcome: "Welcome to WeatherApp",
     welcomeCaption:
       "This App lets you see weather and forecasts of your favourite cities",

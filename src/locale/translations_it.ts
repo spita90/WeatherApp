@@ -7,6 +7,7 @@ export const TRANSLATIONS_IT = {
     back: "Indietro",
     prev: "Indietro",
     next: "Avanti",
+    now: "Adesso",
     welcome: "Benvenuti a WeatherApp",
     welcomeCaption:
       "Questa App ti consente di vedere il meteo e le previsioni delle tue città preferite",
