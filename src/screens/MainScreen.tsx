@@ -1,5 +1,4 @@
-import moment from "moment";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, RefreshControl, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import {
@@ -171,14 +170,6 @@ export function MainScreen({ navigation }: RootStackScreenProps<"MainScreen">) {
     ),
     [cities, currentWeather]
   );
-
-  /**
-   * Manages moment locale change on App language change
-   */
-  useEffect(() => {
-    if (!langCode) return;
-    moment.locale(langCode);
-  }, [langCode]);
 
   /**
    * Fetches current weather data if cities changes.
