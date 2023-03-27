@@ -17,6 +17,7 @@ import { NAV_BAR_HEIGHT_PX } from "../navigation/AppNavigator";
 import { RootStackScreenProps } from "../navigation/screens";
 import { languageState } from "../reducers/store";
 import { useTw } from "../theme";
+import { Palette } from "../theme/palette";
 import { WeatherType } from "../types";
 import { BG_VARIANTS, capitalize, LocalizedDateFormat } from "../utils";
 
@@ -144,13 +145,42 @@ export function WeatherDetailScreen({
     []
   );
 
+  const HourlyForecastItem = useCallback(
+    ({
+      hourlyForecast,
+      bold,
+      showNow,
+    }: {
+      hourlyForecast: HourlyForecast;
+      bold?: boolean;
+      showNow?: boolean;
+    }) => (
+      <View style={tw`w-[70px] mx-sm justify-between items-center`}>
+        <Text
+          style={tw`h-[30px] justify-end`}
+          size={bold ? "tt" : "md"}
+          color={bold ? "white" : "white/60"}
+        >
+          {showNow ? i18n.t("l.now") : hourlyForecast.time.getHours()}
+        </Text>
+        <View style={tw`h-[20px] w-[20px] my-[10px] bg-white rounded-[10px]`} />
+        <Text
+          style={tw`h-[30px] justify-start`}
+          size={bold ? "lg" : "md"}
+          color={bold ? "white" : "white/60"}
+        >{`${Math.floor(hourlyForecast.temp)}°`}</Text>
+      </View>
+    ),
+    []
+  );
+
   const HourlyForecasts = useCallback(() => {
     if (!hourlyForecasts) return null;
     return (
       <View>
         <LinearGradient
-          style={tw`absolute top-[46%] left-[46px] h-6px w-full`}
-          colors={["white", "transparent"]}
+          style={tw`absolute top-[46%] h-6px w-full`}
+          colors={["transparent", Palette.white80, "transparent"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         />
@@ -162,31 +192,42 @@ export function WeatherDetailScreen({
             ...hourlyForecasts,
           ]}
           renderItem={({ item: hourlyForecast, index }) => {
-            const firstItem = index === 0;
             return (
-              <View style={tw`w-[70px] mx-sm justify-between items-center`}>
-                <Text
-                  style={tw`h-[30px] justify-end`}
-                  size={firstItem ? "tt" : "md"}
-                  color={firstItem ? "white" : "white/60"}
-                >
-                  {firstItem ? i18n.t("l.now") : hourlyForecast.time.getHours()}
-                </Text>
-                <View
-                  style={tw`h-[20px] w-[20px] my-[10px] bg-white rounded-[10px]`}
-                />
-                <Text
-                  style={tw`h-[30px] justify-start`}
-                  size={firstItem ? "lg" : "md"}
-                  color={firstItem ? "white" : "white/60"}
-                >{`${Math.floor(hourlyForecast.temp)}°`}</Text>
-              </View>
+              <HourlyForecastItem
+                hourlyForecast={hourlyForecast}
+                showNow={index === 0}
+                bold={index === 0}
+              />
             );
           }}
         />
       </View>
     );
   }, [hourlyForecasts]);
+
+  const DailyForecastItem = useCallback(
+    ({ dailyForecast }: { dailyForecast: DailyForecast }) => (
+      <View
+        style={tw`w-[150px] mx-sm mb-xl p-md justify-between items-center rounded-xl bg-[${
+          BG_VARIANTS[dailyForecast.weatherType].end
+        }] shadow-lg`}
+      >
+        <Text textWhite size="tt">{`${moment(dailyForecast.time).format(
+          "dddd"
+        )}`}</Text>
+        <Text style={tw`mt-sm`} textWhite size="xl">{`${Math.floor(
+          dailyForecast.temp
+        )}°`}</Text>
+        <Image
+          style={tw`w-[100px] h-[100px]`}
+          source={{
+            uri: `${openWeatherMapImageBaseUrl}/${dailyForecast.icon}@2x.png`,
+          }}
+        />
+      </View>
+    ),
+    []
+  );
 
   const DailyForecasts = useCallback(
     () => (
@@ -196,24 +237,7 @@ export function WeatherDetailScreen({
         showsHorizontalScrollIndicator={false}
         data={dailyForecasts}
         renderItem={({ item: dailyForecast }) => (
-          <View
-            style={tw`w-[150px] mx-sm mb-xl p-md justify-between items-center rounded-xl bg-[${
-              BG_VARIANTS[dailyForecast.weatherType].end
-            }] shadow-lg`}
-          >
-            <Text textWhite size="tt">{`${moment(dailyForecast.time).format(
-              "dddd"
-            )}`}</Text>
-            <Text style={tw`mt-sm`} textWhite size="xl">{`${Math.floor(
-              dailyForecast.temp
-            )}°`}</Text>
-            <Image
-              style={tw`w-[100px] h-[100px]`}
-              source={{
-                uri: `${openWeatherMapImageBaseUrl}/${dailyForecast.icon}@2x.png`,
-              }}
-            />
-          </View>
+          <DailyForecastItem dailyForecast={dailyForecast} />
         )}
       />
     ),

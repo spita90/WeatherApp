@@ -137,6 +137,9 @@ export function MainScreen({ navigation }: RootStackScreenProps<"MainScreen">) {
         showsVerticalScrollIndicator={false}
         data={Object.keys(currentWeather)}
         keyExtractor={(_, index) => index.toString()}
+        ListFooterComponent={
+          <View style={tw`mb-[${NAV_BAR_HEIGHT_PX + 20}]`} />
+        }
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -194,7 +197,7 @@ export function MainScreen({ navigation }: RootStackScreenProps<"MainScreen">) {
 
   return (
     <Screen>
-      <View style={tw`h-full items-center pb-[${NAV_BAR_HEIGHT_PX + 20}]`}>
+      <View style={tw`h-full items-center`}>
         <ScreenContent />
       </View>
       <AddCityModal
