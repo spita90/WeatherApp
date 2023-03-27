@@ -34,24 +34,6 @@ export function LocationScreen({
     }
   };
 
-  /**
-   * Handles profile data reset at correct key-press
-   * and shows progress in the while.
-   */
-  useEffect(() => {
-    if (dataResetCounter === 3) {
-      wipeUser();
-      setDataResetCounter(0);
-      showToast(
-        `${dataResetCounter.toString()} - ${i18n.t("l.resetDataDone")}`,
-        "grey",
-        1000
-      );
-    } else if (dataResetCounter > 0) {
-      showToast(dataResetCounter.toString(), "grey", 1000);
-    }
-  }, [dataResetCounter]);
-
   const Header = useCallback(
     () => (
       <Text style={tw`mt-xl`} textStyle={tw`text-4xl`} bold>
@@ -116,6 +98,24 @@ export function LocationScreen({
       <DangerZone />
     </>
   );
+
+  /**
+   * Handles profile data reset at correct key-press
+   * and shows progress in the while.
+   */
+  useEffect(() => {
+    if (dataResetCounter === 3) {
+      wipeUser();
+      setDataResetCounter(0);
+      showToast(
+        `${dataResetCounter.toString()} - ${i18n.t("l.resetDataDone")}`,
+        "grey",
+        1000
+      );
+    } else if (dataResetCounter > 0) {
+      showToast(dataResetCounter.toString(), "grey", 1000);
+    }
+  }, [dataResetCounter]);
 
   return (
     <Screen>

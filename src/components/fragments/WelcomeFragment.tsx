@@ -24,16 +24,12 @@ import { i18n } from "../core/LanguageLoader";
 export function WelcomeFragment() {
   const tw = useTw();
 
+  // state
   const [currentPageNumber, setCurrentPageNumber] = useState<number>(0);
   const [finishing, setFinishing] = useState<boolean>(false);
-
   const [username, setUsername] = useState<string>();
 
-  const usernameIsValid = useMemo(
-    () => !!username && username.trim().length > 0,
-    [username]
-  );
-
+  // animations refs
   const cityItemAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const hiSlideAnim = useRef(
@@ -43,6 +39,7 @@ export function WelcomeFragment() {
     new Animated.Value(3 * SCREEN_AVAILABLE_WIDTH)
   ).current;
 
+  // page navigation management
   const goPrev = (page: number) => setCurrentPageNumber(page - 1);
 
   const goNext = (page: number) => {
@@ -50,12 +47,19 @@ export function WelcomeFragment() {
     setFinishing(true);
   };
 
+  const finish = () => setFirstUse(false);
+
+  // username management
   const onUsernameInputValueChanged = (text: string) => {
     setUsername(text);
   };
 
-  const finish = () => setFirstUse(false);
+  const usernameIsValid = useMemo(
+    () => !!username && username.trim().length > 0,
+    [username]
+  );
 
+  // pages
   const Page0 = useCallback(() => {
     return (
       <View
@@ -105,6 +109,7 @@ export function WelcomeFragment() {
     );
   }, []);
 
+  // dummy animated city item data to display in last page (tutorial)
   const dummyCurrentWeather: CurrentWeather = {
     weather: [
       {
@@ -143,6 +148,34 @@ export function WelcomeFragment() {
       </View>
     );
   }, []);
+
+  const Navigation = useCallback(
+    () => (
+      <View style={tw`flex-row flex-1 py-md px-xl justify-between items-end`}>
+        {currentPageNumber > 0 ? (
+          <Button onPress={() => goPrev(currentPageNumber)}>
+            <Octicons name="arrow-left" size={32} color={"black"} />
+          </Button>
+        ) : (
+          <View style={tw`flex-1`} />
+        )}
+        {(currentPageNumber !== 1 || usernameIsValid) && (
+          <Button
+            onPress={() => {
+              if (currentPageNumber === 1) {
+                Keyboard.dismiss();
+                setName(username!.trim());
+              }
+              goNext(currentPageNumber);
+            }}
+          >
+            <Octicons name="arrow-right" size={32} color={"black"} />
+          </Button>
+        )}
+      </View>
+    ),
+    [currentPageNumber, username]
+  );
 
   /**
    * Manages the initial "Hi!" animation and the pages slide
@@ -183,6 +216,9 @@ export function WelcomeFragment() {
       }).start(() => finish());
   }, [currentPageNumber, finishing]);
 
+  /**
+   * Handles city item animation
+   */
   useEffect(() => {
     setTimeout(() => {
       if (currentPageNumber === 2) {
@@ -210,34 +246,6 @@ export function WelcomeFragment() {
       cityItemAnim.removeAllListeners();
     };
   }, [currentPageNumber]);
-
-  const Navigation = useCallback(
-    () => (
-      <View style={tw`flex-row flex-1 py-md px-xl justify-between items-end`}>
-        {currentPageNumber > 0 ? (
-          <Button onPress={() => goPrev(currentPageNumber)}>
-            <Octicons name="arrow-left" size={32} color={"black"} />
-          </Button>
-        ) : (
-          <View style={tw`flex-1`} />
-        )}
-        {(currentPageNumber !== 1 || usernameIsValid) && (
-          <Button
-            onPress={() => {
-              if (currentPageNumber === 1) {
-                Keyboard.dismiss();
-                setName(username!.trim());
-              }
-              goNext(currentPageNumber);
-            }}
-          >
-            <Octicons name="arrow-right" size={32} color={"black"} />
-          </Button>
-        )}
-      </View>
-    ),
-    [currentPageNumber, username]
-  );
 
   return (
     <Animated.View

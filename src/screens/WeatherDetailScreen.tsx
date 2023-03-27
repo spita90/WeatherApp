@@ -1,7 +1,7 @@
 import { Octicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { openWeatherMapImageBaseUrl } from "../../App";
 import { AddCityButton, AddCityModal, Screen, Text } from "../components";
 import { i18n } from "../components/core/LanguageLoader";
+import { NAV_BAR_HEIGHT_PX } from "../navigation/AppNavigator";
 import { RootStackScreenProps } from "../navigation/screens";
 import { languageState } from "../reducers/store";
 import { useTw } from "../theme";
@@ -31,6 +32,9 @@ interface DailyForecast {
   icon: string;
 }
 
+/**
+ * To each WeatherType is associated an appropriate OpenWeatherMap icon
+ */
 const MOCKED_DAILY_FORECASTS_ICONS: { [weatherType in WeatherType]: string } = {
   [WeatherType.Thunderstorm]: "11d",
   [WeatherType.Drizzle]: "09d",
@@ -86,6 +90,158 @@ export function WeatherDetailScreen({
     return dailyForecasts;
   };
 
+  const Header = useCallback(
+    () => (
+      <View style={tw`flex-row pt-sm items-center justify-between`}>
+        <TouchableOpacity
+          style={tw`p-xl`}
+          onPress={() => {
+            navigation.canGoBack() && navigation.goBack();
+          }}
+        >
+          <Octicons name="arrow-left" size={32} color={"white"} />
+        </TouchableOpacity>
+        <Text textWhite textStyle={tw`text-[36px]`}>
+          {cityName}
+        </Text>
+        <TouchableOpacity
+          style={tw`p-xl`}
+          onPress={() => setAddCityModalOpen(true)}
+        >
+          <AddCityButton />
+        </TouchableOpacity>
+      </View>
+    ),
+    []
+  );
+
+  const CurrentWeather = useCallback(
+    () => (
+      <View style={tw`items-center`}>
+        <Text textWhite size="lg">
+          {moment(new Date()).format(LocalizedDateFormat[langCode])}
+        </Text>
+        <Text style={tw`mt-lg`} size="lg" color="white/60">
+          {capitalize(currentWeather.weather[0].description)}
+        </Text>
+        {!!icon && (
+          <View style={tw`flex-row`}>
+            <Image
+              style={tw`w-[150px] h-[150px]`}
+              source={{
+                uri: `${openWeatherMapImageBaseUrl}/${icon}@4x.png`,
+              }}
+            />
+            <Text
+              style={tw`justify-center`}
+              textStyle={tw`text-8xl`}
+              textWhite
+            >{`${Math.floor(currentWeather.main.temp)}°`}</Text>
+          </View>
+        )}
+      </View>
+    ),
+    []
+  );
+
+  const HourlyForecasts = useCallback(() => {
+    if (!hourlyForecasts) return null;
+    return (
+      <View>
+        <LinearGradient
+          style={tw`absolute top-[46%] left-[46px] h-6px w-full`}
+          colors={["white", "transparent"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        />
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={[
+            { time: new Date(), temp: currentWeather.main.temp },
+            ...hourlyForecasts,
+          ]}
+          renderItem={({ item: hourlyForecast, index }) => {
+            const firstItem = index === 0;
+            return (
+              <View style={tw`w-[70px] mx-sm justify-between items-center`}>
+                <Text
+                  style={tw`h-[30px] justify-end`}
+                  size={firstItem ? "tt" : "md"}
+                  color={firstItem ? "white" : "white/60"}
+                >
+                  {firstItem ? i18n.t("l.now") : hourlyForecast.time.getHours()}
+                </Text>
+                <View
+                  style={tw`h-[20px] w-[20px] my-[10px] bg-white rounded-[10px]`}
+                />
+                <Text
+                  style={tw`h-[30px] justify-start`}
+                  size={firstItem ? "lg" : "md"}
+                  color={firstItem ? "white" : "white/60"}
+                >{`${Math.floor(hourlyForecast.temp)}°`}</Text>
+              </View>
+            );
+          }}
+        />
+      </View>
+    );
+  }, [hourlyForecasts]);
+
+  const DailyForecasts = useCallback(
+    () => (
+      <FlatList
+        style={tw`mt-xl`}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={dailyForecasts}
+        renderItem={({ item: dailyForecast }) => (
+          <View
+            style={tw`w-[150px] mx-sm mb-xl p-md justify-between items-center rounded-xl bg-[${
+              BG_VARIANTS[dailyForecast.weatherType].end
+            }] shadow-lg`}
+          >
+            <Text textWhite size="tt">{`${moment(dailyForecast.time).format(
+              "dddd"
+            )}`}</Text>
+            <Text style={tw`mt-sm`} textWhite size="xl">{`${Math.floor(
+              dailyForecast.temp
+            )}°`}</Text>
+            <Image
+              style={tw`w-[100px] h-[100px]`}
+              source={{
+                uri: `${openWeatherMapImageBaseUrl}/${dailyForecast.icon}@2x.png`,
+              }}
+            />
+          </View>
+        )}
+      />
+    ),
+    [dailyForecasts]
+  );
+
+  const ScreenContent = useCallback(
+    () => (
+      <LinearGradient
+        style={tw`h-full grow items-center pb-[${NAV_BAR_HEIGHT_PX + 20}]`}
+        colors={[
+          BG_VARIANTS[currentWeather.weather[0].main].start,
+          BG_VARIANTS[currentWeather.weather[0].main].end,
+        ]}
+      >
+        <ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
+          <Header />
+          <CurrentWeather />
+          <View style={tw`px-lg`}>
+            <HourlyForecasts />
+            <DailyForecasts />
+          </View>
+        </ScrollView>
+      </LinearGradient>
+    ),
+    [hourlyForecasts, dailyForecasts]
+  );
+
   useEffect(() => {
     setHourlyForecasts(mockHourlyForecasts());
     setDailyForecasts(mockDailyForecasts);
@@ -93,136 +249,7 @@ export function WeatherDetailScreen({
 
   return (
     <Screen>
-      <LinearGradient
-        style={tw`h-full grow items-center`}
-        colors={[
-          BG_VARIANTS[currentWeather.weather[0].main].start,
-          BG_VARIANTS[currentWeather.weather[0].main].end,
-        ]}
-      >
-        <ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
-          <View style={tw`flex-row pt-sm items-center justify-between`}>
-            <TouchableOpacity
-              style={tw`p-xl`}
-              onPress={() => {
-                navigation.canGoBack() && navigation.goBack();
-              }}
-            >
-              <Octicons name="arrow-left" size={32} color={"white"} />
-            </TouchableOpacity>
-            <Text textWhite textStyle={tw`text-[36px]`}>
-              {cityName}
-            </Text>
-            <TouchableOpacity
-              style={tw`p-xl`}
-              onPress={() => setAddCityModalOpen(true)}
-            >
-              <AddCityButton />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <View style={tw`items-center`}>
-              <Text textWhite size="lg">
-                {moment(new Date()).format(LocalizedDateFormat[langCode])}
-              </Text>
-              <Text style={tw`mt-lg`} size="lg" color="white/60">
-                {capitalize(currentWeather.weather[0].description)}
-              </Text>
-              {!!icon && (
-                <View style={tw`flex-row`}>
-                  <Image
-                    style={tw`w-[150px] h-[150px]`}
-                    source={{
-                      uri: `${openWeatherMapImageBaseUrl}/${icon}@4x.png`,
-                    }}
-                  />
-                  <Text
-                    style={tw`justify-center`}
-                    textStyle={tw`text-8xl`}
-                    textWhite
-                  >{`${Math.floor(currentWeather.main.temp)}°`}</Text>
-                </View>
-              )}
-            </View>
-            <View style={tw`px-lg`}>
-              {hourlyForecasts && (
-                <View>
-                  <LinearGradient
-                    style={tw`absolute top-[46%] left-[46px] h-6px w-full`}
-                    colors={["white", "transparent"]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                  />
-                  <FlatList
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={[
-                      { time: new Date(), temp: currentWeather.main.temp },
-                      ...hourlyForecasts,
-                    ]}
-                    renderItem={({ item: hourlyForecast, index }) => {
-                      const firstItem = index === 0;
-                      return (
-                        <View
-                          style={tw`w-[70px] mx-sm justify-between items-center`}
-                        >
-                          <Text
-                            style={tw`h-[30px] justify-end`}
-                            size={firstItem ? "tt" : "md"}
-                            color={firstItem ? "white" : "white/60"}
-                          >
-                            {firstItem
-                              ? i18n.t("l.now")
-                              : hourlyForecast.time.getHours()}
-                          </Text>
-                          <View
-                            style={tw`h-[20px] w-[20px] my-[10px] bg-white rounded-[10px]`}
-                          />
-                          <Text
-                            style={tw`h-[30px] justify-start`}
-                            size={firstItem ? "lg" : "md"}
-                            color={firstItem ? "white" : "white/60"}
-                          >{`${Math.floor(hourlyForecast.temp)}°`}</Text>
-                        </View>
-                      );
-                    }}
-                  />
-                </View>
-              )}
-              {dailyForecasts && (
-                <FlatList
-                  style={tw`mt-xl`}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={dailyForecasts}
-                  renderItem={({ item: dailyForecast }) => (
-                    <View
-                      style={tw`w-[150px] mx-sm mb-xl p-md justify-between items-center rounded-xl bg-[${
-                        BG_VARIANTS[dailyForecast.weatherType].end
-                      }] shadow-lg`}
-                    >
-                      <Text textWhite size="tt">{`${moment(
-                        dailyForecast.time
-                      ).format("dddd")}`}</Text>
-                      <Text
-                        style={tw`mt-sm`}
-                        textWhite
-                        size="xl"
-                      >{`${Math.floor(dailyForecast.temp)}°`}</Text>
-                      <Image
-                        style={tw`w-[100px] h-[100px]`}
-                        source={{
-                          uri: `${openWeatherMapImageBaseUrl}/${dailyForecast.icon}@2x.png`,
-                        }}
-                      />
-                    </View>
-                  )}
-                />
-              )}
-            </View>
-          </View>
-        </ScrollView>
-      </LinearGradient>
+      <ScreenContent />
       <AddCityModal
         visible={addCityModalIsOpen}
         setVisible={setAddCityModalOpen}

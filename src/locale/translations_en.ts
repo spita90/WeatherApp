@@ -46,6 +46,6 @@ export const TRANSLATIONS_EN = {
   },
   errors: {
     rateLimitExcedeed:
-      "You exceeded unauthenticated GitHub API rate limit. Please wait before querying again. Be sure you set a token in your Profile",
+      "You exceeded OpenWeatherMap API rate limit. Please wait before querying again, or contact the App developer.",
   },
 };

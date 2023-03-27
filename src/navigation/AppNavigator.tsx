@@ -56,7 +56,6 @@ export const AppNavigator = () => {
     MainStack: (focused: boolean) => (
       <Octicons name="home" size={30} color={Palette.black80} />
     ),
-
     SearchScreen: (focused: boolean) => (
       <Octicons name="search" size={30} color={Palette.black80} />
     ),

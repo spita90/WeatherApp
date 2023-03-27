@@ -15,7 +15,7 @@ export interface SlidingModalProps {
 }
 
 /**
- * Animated bottom sheet sliding from the bottom
+ * Animated modal sliding from the bottom
  * @param title string to show in the component header
  * @param children the modal content
  * @param backgroundColor the background color

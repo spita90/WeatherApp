@@ -46,6 +46,6 @@ export const TRANSLATIONS_IT = {
   },
   errors: {
     rateLimitExcedeed:
-      "Hai superato la soglia di richieste GitHub API per utenti non autenticati. Per favore attendere prima di fare nuove ricerche. Assicurati di aver impostato un token nel tuo Profilo",
+      "Hai superato la soglia di richieste OpenWeatherMap API. Per favore attendere prima di fare nuove ricerche, o contatta lo sviluppatore dell'App",
   },
 };

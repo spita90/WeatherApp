@@ -5,7 +5,7 @@ import { Text } from "..";
 import { useTw } from "../../theme";
 
 /**
- * Shows a cool animation with the app logo.
+ * Shows a cool random animation with the app logo.
  * Uses Lottie for the animation
  */
 export const LoadingFragment = () => {

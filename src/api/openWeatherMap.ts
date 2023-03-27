@@ -33,6 +33,7 @@ export const getCurrentWeatherData = async (
       return response.data;
     });
 
+// useful response/error validation methods
 export const isError404NotFound = (e: any) => {
   return (
     axios.isAxiosError(e) &&

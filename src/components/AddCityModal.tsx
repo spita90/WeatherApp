@@ -31,7 +31,12 @@ export function AddCityModal({
   const latTextInputRef = useRef(null);
   const lonTextInputRef = useRef(null);
 
+  /**
+   * Handles fields validation and displays toasts if not
+   * @returns true if entered fields are valid, otherwise false
+   */
   const fieldsAreValid = () => {
+    // all fields must be non-empty and non-whitespace
     const allInputsFilled =
       !!addCityName &&
       !!addCityLat &&
@@ -44,6 +49,7 @@ export function AddCityModal({
       return false;
     }
 
+    // lat and lon fields must be either integer or decimal
     const latLonAreRegexValid =
       LAT_LON_MATCHER.test(addCityLat.trim()) &&
       LAT_LON_MATCHER.test(addCityLon.trim());
@@ -58,6 +64,7 @@ export function AddCityModal({
     const lon = Number(
       LAT_LON_MATCHER.exec(addCityLon.trim().replaceAll(",", "."))![0]
     );
+    // lat must be >=-90 and <=90, lon must be >=-180 and <=180
     const latLonAreSemanticallyValid =
       Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
     if (!latLonAreSemanticallyValid) {
@@ -74,6 +81,9 @@ export function AddCityModal({
     setAddCityLon("");
   };
 
+  /**
+   * Triggers fields validation and, if successful, city entering into redux state
+   */
   const tryAddCity = () => {
     Keyboard.dismiss();
     if (!fieldsAreValid()) return;

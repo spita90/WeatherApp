@@ -27,6 +27,7 @@ export function CityItem({
   const { code: langCode } = useSelector(languageState);
   const icon = currentWeather.weather[0].icon;
 
+  if (!cityName || !currentWeather) return null;
   return (
     <LinearGradient
       style={tw`max-w-[100%] mb-md p-md rounded-lg`}
