@@ -27,4 +27,5 @@ This App comes with some cool features
 <li>I18n for ui language change and translation system</li>
 <li>Lottie for Lottie json animation playback</li>
 <li>UI animations by React-Native included Animated library</li>
+<li>And... well commented code!</li>
 </ul>
